@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     
-    private List<StockCli> stocks;
+    public List<StockCli> stocks;
 
     
     public ServImpl() throws RemoteException{
@@ -37,9 +37,15 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
         }
     }
     
+    @Override
     public void newStock(InterfaceCli client, Stock stock) throws RemoteException {
         StockCli sc = new StockCli(stock, client); 
         stocks.add(sc);
+    }
+
+    @Override
+    public List<StockCli> getStocks() throws RemoteException{
+        return stocks;
     }
     
 }

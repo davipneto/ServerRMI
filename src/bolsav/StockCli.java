@@ -5,14 +5,16 @@
  */
 package bolsav;
 
+import java.io.Serializable;
+
 /**
  *
  * @author davi
  */
-public class StockCli {
+public class StockCli implements Serializable{
     
-    private Stock stock;
-    private InterfaceCli client;
+    public Stock stock;
+    public InterfaceCli client;
 
     public StockCli(Stock stock, InterfaceCli client) {
         this.stock = stock;

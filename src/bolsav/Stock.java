@@ -5,16 +5,18 @@
  */
 package bolsav;
 
+import java.io.Serializable;
+
 /**
  *
  * @author davi
  */
-class Stock {
+public class Stock implements Serializable{
     
-    private String company;
-    private int qt;
-    private double minPrice;
-    private boolean available;
+    public String company;
+    public int qt;
+    public double minPrice;
+    public boolean available;
 
     public Stock(String company, int qt, double minPrice) {
         this.company = company;

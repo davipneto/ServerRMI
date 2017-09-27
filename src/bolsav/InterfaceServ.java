@@ -6,6 +6,7 @@
 package bolsav;
 
 import java.rmi.*;
+import java.util.List;
 
 /**
  *
@@ -13,4 +14,6 @@ import java.rmi.*;
  */
 public interface InterfaceServ extends Remote{
     public void chamar(String nome, InterfaceCli cliente) throws RemoteException;
+    public void newStock(InterfaceCli client, Stock stock) throws RemoteException;
+    public List<StockCli> getStocks() throws RemoteException;
 }
