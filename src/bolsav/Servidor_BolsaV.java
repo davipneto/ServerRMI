@@ -23,10 +23,7 @@ public class Servidor_BolsaV {
     public static void main(String[] args) {
         try {
             // TODO code application logic here
-            Registry referenciaServicoNomes = LocateRegistry.createRegistry(1099);
             ServImpl servImpl = new ServImpl();
-            referenciaServicoNomes.rebind("RefServidor", servImpl);
-            System.out.println("Servidor funcionando");
         } catch (RemoteException ex) {
             Logger.getLogger(Servidor_BolsaV.class.getName()).log(Level.SEVERE, null, ex);
         }
