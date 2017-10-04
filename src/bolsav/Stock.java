@@ -19,11 +19,13 @@ public class Stock implements Serializable{
     public int qt;
     public double minPrice;
     public boolean available;
+    public double actualPrice;
 
     public Stock(String company, int qt, double minPrice) {
         this.company = company;
         this.qt = qt;
         this.minPrice = minPrice;
+        this.actualPrice = minPrice;
     }
 
     public String getCompany() {
