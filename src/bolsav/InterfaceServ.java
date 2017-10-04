@@ -14,6 +14,6 @@ import java.util.List;
  */
 public interface InterfaceServ extends Remote{
     public void chamar(String nome, InterfaceCli cliente) throws RemoteException;
-    public void newStock(InterfaceCli client, Stock stock) throws RemoteException;
+    public void newStock(InterfaceCli client, Stock stock, int id) throws RemoteException;
     public List<StockCli> getStocks() throws RemoteException;
 }

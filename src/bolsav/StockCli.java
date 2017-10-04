@@ -15,10 +15,12 @@ public class StockCli implements Serializable{
     
     public Stock stock;
     public InterfaceCli client;
+    public int id;
 
-    public StockCli(Stock stock, InterfaceCli client) {
+    public StockCli(Stock stock, InterfaceCli client, int id) {
         this.stock = stock;
         this.client = client;
+        this.id = id;
     }
 
     public Stock getStock() {
@@ -29,5 +31,8 @@ public class StockCli implements Serializable{
         return client;
     }
     
+    public int getId() {
+        return id;
+    }
     
 }

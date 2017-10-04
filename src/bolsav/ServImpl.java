@@ -38,8 +38,8 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     }
     
     @Override
-    public void newStock(InterfaceCli client, Stock stock) throws RemoteException {
-        StockCli sc = new StockCli(stock, client); 
+    public void newStock(InterfaceCli client, Stock stock, int id) throws RemoteException {
+        StockCli sc = new StockCli(stock, client, id); 
         stocks.add(sc);
     }
 
