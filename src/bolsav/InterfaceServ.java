@@ -17,7 +17,5 @@ public interface InterfaceServ extends Remote{
     public void newStock(InterfaceCli client, Stock stock, int id) throws RemoteException;
     public void updateStock() throws RemoteException;
     public List<StockCli> getStocks() throws RemoteException;
-    //funcao para alterar situacao de venda de um stock
-    
     public void subscribe(InterfaceCli client, Stock stock) throws RemoteException;
 }
