@@ -62,7 +62,7 @@ public class Stock implements Serializable{
     
     public String getPrice() {
         NumberFormat formatter = new DecimalFormat("#0.00");
-        return formatter.format(minPrice).replace(',', '.');
+        return formatter.format(actualPrice).replace(',', '.');
     }
     
 }

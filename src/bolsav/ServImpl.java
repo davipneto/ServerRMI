@@ -74,7 +74,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     }
     
     @Override
-    public void newStock(InterfaceCli client, Stock stock, int id) throws RemoteException {
+    public void newStock(InterfaceCli client, Stock stock, long id) throws RemoteException {
         StockCli sc = new StockCli(stock, client, id); 
         stocks.add(sc);
     }
@@ -85,9 +85,9 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     }
     
     @Override
-    public void subscribe(InterfaceCli client, Stock stock) throws RemoteException {
+    public void subscribe(InterfaceCli client, String company) throws RemoteException {
         for (StockCli st: stocks) {
-            if (st.stock.company.equals(stock.company)) {
+            if (st.stock.company.equals(company)) {
                 st.subscribers.add(client);
             }
         }
