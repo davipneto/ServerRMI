@@ -105,8 +105,29 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     }
 
     @Override
-    public void updateStock() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void buy(InterfaceCli buyer, String company, double maxPrice, int qtde) throws RemoteException {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                for (StockCli sc: stocks) {
+                    Stock s = sc.stock;
+                    if (s.company.equals(company) && s.isAvailable() && s.actualPrice >= s.minPrice && s.actualPrice <= maxPrice && s.qt >= qtde && buyer!= sc.client) {
+                        NumberFormat formatter = new DecimalFormat("#0.00");
+                        double price = (s.actualPrice + maxPrice) / 2;
+                        String p = formatter.format(price).replace(',', '.');
+                        try {
+                            buyer.notify("buy " + company + " " + p + " " + qtde + " " + s.minPrice);
+                            sc.client.notify("sell " + company + " " + p + " " + qtde + " " + s.minPrice);
+                            this.cancel();
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(ServImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            }
+        };
+        Timer t = new Timer();
+        t.schedule(task, 5000, 5000);
     }
     
 }

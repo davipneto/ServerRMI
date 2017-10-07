@@ -12,10 +12,10 @@ import java.util.List;
  *
  * @author geova
  */
-public interface InterfaceServ extends Remote{
+public interface InterfaceServ extends Remote {
     public void chamar(String nome, InterfaceCli cliente) throws RemoteException;
     public void newStock(InterfaceCli client, Stock stock, long id) throws RemoteException;
-    public void updateStock() throws RemoteException;
     public List<StockCli> getStocks() throws RemoteException;
     public void subscribe(InterfaceCli client, String company) throws RemoteException;
+    public void buy(InterfaceCli buyer, String company, double maxPrice, int qtde) throws RemoteException;
 }
