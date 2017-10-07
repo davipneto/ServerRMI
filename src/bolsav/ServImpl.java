@@ -9,6 +9,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,7 +58,10 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     public void notifyClients(StockCli sc, String event, double oldPrice, double newPrice) {
         for (InterfaceCli subscriber: sc.subscribers) {
             try {
-                subscriber.notify(event + sc.stock.company + String.valueOf(oldPrice) + String.valueOf(newPrice));
+                NumberFormat formatter = new DecimalFormat("#0.00");
+                String oldp = formatter.format(oldPrice).replace(',', '.');
+                String newp = formatter.format(newPrice).replace(',', '.');
+                subscriber.notify(event + " " + sc.stock.company + " "  + oldp + " "  + newp);
             } catch (RemoteException ex) {
                 Logger.getLogger(ServImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -77,7 +82,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     public void newStock(InterfaceCli client, Stock stock, long id) throws RemoteException {
         for (StockCli sc: stocks) {
             if (sc.stock.company.equals(stock.company) && client.equals(sc.client)) {
-                sc.stock = stock;
+                sc.stock.setAvailable(true);
                 return;
             }
         }
