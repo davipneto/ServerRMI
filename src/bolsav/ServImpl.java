@@ -33,7 +33,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
             }
         };
         Timer t = new Timer();
-        t.schedule(update, 5000, 5000);
+        t.schedule(update, 15000, 15000);
         System.out.println("Servidor funcionando");
     }
     
@@ -75,6 +75,12 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     
     @Override
     public void newStock(InterfaceCli client, Stock stock, long id) throws RemoteException {
+        for (StockCli sc: stocks) {
+            if (sc.stock.company.equals(stock.company) && client.equals(sc.client)) {
+                sc.stock = stock;
+                return;
+            }
+        }
         StockCli sc = new StockCli(stock, client, id); 
         stocks.add(sc);
     }
