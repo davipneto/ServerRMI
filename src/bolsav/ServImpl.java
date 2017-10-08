@@ -12,6 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,6 +83,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
     public void newStock(InterfaceCli client, Stock stock, long id) throws RemoteException {
         for (StockCli sc: stocks) {
             if (sc.stock.company.equals(stock.company) && client.equals(sc.client)) {
+                sc.stock.setQt(stock.getQt());
                 sc.stock.setAvailable(true);
                 return;
             }
@@ -117,9 +119,12 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
                         String p = formatter.format(price).replace(',', '.');
                         try {
                             buyer.notify("buy " + company + " " + p + " " + qtde + " " + s.minPrice);
+                            TimeUnit.SECONDS.sleep(1);
                             sc.client.notify("sell " + company + " " + p + " " + qtde + " " + s.minPrice);
                             this.cancel();
                         } catch (RemoteException ex) {
+                            Logger.getLogger(ServImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
                             Logger.getLogger(ServImpl.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
@@ -127,7 +132,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ{
             }
         };
         Timer t = new Timer();
-        t.schedule(task, 5000, 5000);
+        t.schedule(task, 0, 5000);
     }
     
 }
