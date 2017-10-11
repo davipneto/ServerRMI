@@ -15,6 +15,7 @@ public class StockCli implements Serializable {
     public Stock stock;
     public InterfaceCli client;
     public long id;
+    //lista dos subscribers que desejam receber updates dessa ação
     public List<InterfaceCli> subscribers;
 
     /**
