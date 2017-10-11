@@ -59,4 +59,11 @@ public interface InterfaceServ extends Remote {
      * @throws RemoteException
      */
     public void buy(InterfaceCli buyer, String company, double maxPrice, int qtde) throws RemoteException;
+    
+    /**
+     * Realiza o logout do cliente no mercado de ações
+     * @param client com a referência do cliente
+     * @throws RemoteException 
+     */
+    public void logout(InterfaceCli client) throws RemoteException;
 }

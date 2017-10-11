@@ -220,4 +220,17 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
         t.schedule(task, 0, 10000);
     }
 
+    /**
+     * Método que apaga da lista de ações as ações do cliente que saiu do mercado
+     * @param client com a referência do cliente
+     * @throws RemoteException 
+     */
+    @Override
+    public void logout(InterfaceCli client) throws RemoteException{
+        for (StockCli st : stocks) {
+            if (st.client.equals(client)) {
+                stocks.remove(st);
+            }
+        }
+    }
 }
