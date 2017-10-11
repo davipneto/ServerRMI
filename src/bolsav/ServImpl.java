@@ -13,18 +13,21 @@ import java.util.logging.Logger;
 
 /**
  * A classe ServImpl implementa os métodos remotos da interface InterfaceServ e
- * implementa os métodos locais trabalha com as ações dos clientes.
+ * implementa os métodos locais trabalha com as ações dos clientes. O servidor
+ * apenas armazena as ações que os clientes disponibilizam.
  *
  * @author Davi Pereira Neto
  * @author Geovana Franco Santos
  */
 public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
 
+    //lista de ações e os clientes associados a elas
     public List<StockCli> stocks;
 
     /**
      * Construtor da classe, cria um registro do servidor e o deixa disponível,
-     * e cria a tarefa que atualiza os preços das ações de tempos em tempos.
+     * e cria a tarefa que atualiza os preços das ações de forma randômica de
+     * tempos em tempos.
      *
      * @throws RemoteException
      */
@@ -48,7 +51,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
 
     /**
      * Método que atualiza os preços das ações presentes na lista local do
-     * servidor
+     * servidor de forma randômica
      */
     public void updatePrices() {
         //cria um randomGenerator
@@ -78,7 +81,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
 
     /**
      * Método que formata a mensagem a ser enviada aos subscribers daquela
-     * companhia depois do valor da ação ter sido modificada pelo servidor.
+     * empresa depois do valor da ação ter sido modificada pelo servidor.
      *
      * @param sc com a ação e o cliente associada a ela
      * @param event com a situação do preço da ação (drop ou rise)
@@ -95,7 +98,6 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
                 //notifica os subscribers da ação
                 subscriber.notify(event + " " + sc.stock.company + " " + oldp + " " + newp);
             } catch (RemoteException ex) {
-                System.out.println("ex remote em notify");
                 Logger.getLogger(ServImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -145,7 +147,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
     }
 
     /**
-     * Retorna a lista de ações
+     * Retorna a lista de ações presentes no servidor
      *
      * @return do tipo lista de Stocks
      * @throws RemoteException
@@ -172,7 +174,10 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
     }
 
     /**
-     * Método que implementa a venda de uma ação
+     * Método que implementa a venda de uma ação, recebe a referência do cliente
+     * que quer comprar e os dados da compra, tenta realizar a compra, caso não
+     * seja bem sucedido agenda a tarefa de verificar na base de dados até
+     * aparecer uma ação que bate com o desejado
      *
      * @param buyer com a referência do cliente que deseja comprar
      * @param company com a empresa da ação
@@ -221,12 +226,14 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
     }
 
     /**
-     * Método que apaga da lista de ações as ações do cliente que saiu do mercado
+     * Método que apaga da lista de ações as ações do cliente que saiu do
+     * mercado evitando que tente vender no futuro de um cliente inexistente
+     *
      * @param client com a referência do cliente
-     * @throws RemoteException 
+     * @throws RemoteException
      */
     @Override
-    public void logout(InterfaceCli client) throws RemoteException{
+    public void logout(InterfaceCli client) throws RemoteException {
         for (StockCli st : stocks) {
             if (st.client.equals(client)) {
                 stocks.remove(st);
