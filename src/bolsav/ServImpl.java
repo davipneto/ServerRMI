@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * A classe ServImpl implementa os métodos remotos da interface InterfaceServ e
- * implementa os métodos locais trabalha com as ações dos clientes. O servidor
+ * implementa os métodos locais que trabalha com as ações dos clientes. O servidor
  * apenas armazena as ações que os clientes disponibilizam.
  *
  * @author Davi Pereira Neto
@@ -147,9 +147,9 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
     }
 
     /**
-     * Retorna a lista de ações presentes no servidor
+     * Retorna a lista de ações associadas aos clientes presentes no servidor
      *
-     * @return do tipo lista de Stocks
+     * @return do tipo lista de StockCli
      * @throws RemoteException
      */
     @Override
